@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Smart Farming & Earning Predictor</title>
+  <meta name="description"
+    content="AI-powered farming advisor with crop rotation, fertilizer calculator, pest diagnosis, and regional pricing" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="wrap">
+    <!-- HEADER -->
+    <header>
+      <h1>🌾 Smart Farming & Earning Predictor</h1>
+      <p class="sub">AI-Powered Agricultural Decision Support System</p>
+    </header>
+
+    <!-- SECTION 1: CROPS BY MONTH -->
+    <section class="card">
+      <h2>📅 Available Crops by Month</h2>
+
+      <div class="row">
+        <label>Month</label>
+        <select id="month1">
+          <option value="january">January</option>
+          <option value="february">February</option>
+          <option value="march">March</option>
+          <option value="april">April</option>
+          <option value="may">May</option>
+          <option value="june">June</option>
+          <option value="july">July</option>
+          <option value="august">August</option>
+          <option value="september">September</option>
+          <option value="october">October</option>
+          <option value="november">November</option>
+          <option value="december">December</option>
+        </select>
+        <button id="btnCrops">Show Crops</button>
+      </div>
+
+      <!-- UI OUTPUT -->
+      <div id="cropsUI" class="out">
+        <div class="muted">
+          No data yet. Enter a month and click "Show Crops".
+        </div>
+      </div>
+
+      <!-- RAW JSON (OPTIONAL) -->
+      <details class="raw">
+        <summary>Show raw JSON</summary>
+        <pre id="outCrops" class="out"></pre>
+      </details>
+    </section>
+
+    <!-- SECTION 2: RECOMMENDATION WITH SMART FEATURES -->
+    <section class="card">
+      <h2>🎯 Top-3 Crop Recommendations</h2>
+      <p class="feature-badge">✨ With Crop Rotation, Regional Pricing & Fertilizer Analysis</p>
+
+      <div class="grid">
+        <div>
+          <label>Month</label>
+          <select id="month2">
+            <option value="january">January</option>
+            <option value="february">February</option>
+            <option value="march">March</option>
+            <option value="april">April</option>
+            <option value="may">May</option>
+            <option value="june">June</option>
+            <option value="july">July</option>
+            <option value="august">August</option>
+            <option value="september">September</option>
+            <option value="october">October</option>
+            <option value="november">November</option>
+            <option value="december">December</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Soil Type</label>
+          <select id="soil">
+            <option value="loamy">Loamy</option>
+            <option value="clay">Clay</option>
+            <option value="sandy">Sandy</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Water Availability</label>
+          <select id="water">
+            <option value="low">Low</option>
+            <option value="medium" selected>Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Budget Level</label>
+          <select id="budget">
+            <option value="low">Low</option>
+            <option value="medium" selected>Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Area (acre)</label>
+          <input id="area" value="1.0" type="number" step="0.1" min="0.1" />
+        </div>
+
+        <!-- SMART FEATURE 1: Previous Crop for Rotation -->
+        <div>
+          <label>Previous Crop <span class="badge">🔄 Rotation</span></label>
+          <select id="previousCrop">
+            <option value="none">None (First Planting)</option>
+            <option value="wheat">Wheat</option>
+            <option value="potato">Potato</option>
+            <option value="tomato">Tomato</option>
+            <option value="mustard">Mustard</option>
+            <option value="lentil">Lentil</option>
+            <option value="boro_rice">Boro Rice</option>
+            <option value="aus_rice">Aus Rice</option>
+            <option value="aman_rice">Aman Rice</option>
+            <option value="jute">Jute</option>
+            <option value="maize">Maize</option>
+            <option value="mungbean">Mungbean</option>
+            <option value="sesame">Sesame</option>
+            <option value="chili">Chili</option>
+            <option value="brinjal">Brinjal</option>
+            <option value="cauliflower">Cauliflower</option>
+          </select>
+        </div>
+
+        <!-- SMART FEATURE 4: District for Regional Pricing -->
+        <div>
+          <label>District <span class="badge">💰 Pricing</span></label>
+          <select id="district">
+            <option value="none">None (Base Price)</option>
+            <option value="dhaka">Dhaka</option>
+            <option value="chittagong">Chittagong</option>
+            <option value="sylhet">Sylhet</option>
+            <option value="rajshahi">Rajshahi</option>
+            <option value="khulna">Khulna</option>
+            <option value="barisal">Barisal</option>
+            <option value="rangpur">Rangpur</option>
+            <option value="mymensingh">Mymensingh</option>
+            <option value="cumilla">Cumilla</option>
+            <option value="bogra">Bogra</option>
+            <option value="jessore">Jessore</option>
+            <option value="dinajpur">Dinajpur</option>
+          </select>
+        </div>
+      </div>
+
+      <button id="btnRec" class="primary">Get Top-3 Recommendations</button>
+
+      <div id="tableWrap"></div>
+      <details class="raw">
+        <summary>Show raw JSON</summary>
+        <pre id="outRec" class="out"></pre>
+      </details>
+    </section>
+
+    <!-- SECTION 3: PEST & DISEASE DIAGNOSIS -->
+    <section class="card">
+      <h2>🔬 Pest & Disease Diagnosis</h2>
+      <p class="feature-badge">✨ Expert System for Disease Identification</p>
+
+      <div class="grid" style="grid-template-columns: repeat(3, 1fr);">
+        <div>
+          <label>Crop</label>
+          <select id="diagnoseCrop">
+            <option value="wheat">Wheat</option>
+            <option value="potato">Potato</option>
+            <option value="tomato">Tomato</option>
+            <option value="boro_rice">Boro Rice</option>
+            <option value="aus_rice">Aus Rice</option>
+            <option value="aman_rice">Aman Rice</option>
+            <option value="chili">Chili</option>
+            <option value="brinjal">Brinjal</option>
+            <option value="jute">Jute</option>
+            <option value="maize">Maize</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Symptom</label>
+          <select id="symptom">
+            <option value="yellow_rust">Yellow Rust</option>
+            <option value="leaf_spots">Leaf Spots</option>
+            <option value="stunted_growth">Stunted Growth</option>
+            <option value="brown_spots">Brown Spots</option>
+            <option value="curled_leaves">Curled Leaves</option>
+            <option value="wilting">Wilting</option>
+            <option value="yellow_leaves">Yellow Leaves</option>
+            <option value="black_spots">Black Spots</option>
+            <option value="fruit_rot">Fruit Rot</option>
+            <option value="yellowing">Yellowing</option>
+            <option value="leaf_curl">Leaf Curl</option>
+            <option value="white_flies">White Flies</option>
+            <option value="fruit_drop">Fruit Drop</option>
+            <option value="fruit_borer">Fruit Borer</option>
+            <option value="stem_rot">Stem Rot</option>
+            <option value="leaf_blight">Leaf Blight</option>
+            <option value="ear_rot">Ear Rot</option>
+          </select>
+        </div>
+
+        <div style="display: flex; align-items: end;">
+          <button id="btnDiagnose" class="primary" style="width: 100%;">Diagnose</button>
+        </div>
+      </div>
+
+      <div id="diagnoseResult" class="out" style="margin-top: 12px;">
+        <div class="muted">Select crop and symptom, then click "Diagnose".</div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>🌱 Smart Farming Expert System | Powered by Prolog AI</p>
+    </footer>
+  </div>
+
+  <!-- SCRIPT -->
+  <script src="app.js"></script>
+</body>
+
+</html>
